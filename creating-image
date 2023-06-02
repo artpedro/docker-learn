@@ -1,0 +1,33 @@
+touch Dockerfile
+
+# Dockerfile é necessário para iniciar uma imagem de docker,
+# esse arquivo vai dar instruções para a montagem da imagem
+
+echo "# syntax=docker/dockerfile:1
+   
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN yarn install --production
+CMD ["node", "src/index.js"]
+EXPOSE 3000
+" > Dockerfile
+
+# FROM seleciona uma imagem base para ser usada na montagem
+# RUN roda o yarn para baixar as dependências da aplicação
+# CMD define os comandos default rodados quando a imagem é usada num container
+# EXPOSE especifica qual porta é recomendada se usar
+# COPY copia arquivos de um caminho para dentro da imagem
+# WORKDIR é o local de onde os RUN,CMD,COPY E ENTRYPOINT serão rodados
+
+docker build -t getting-started .
+
+#-t especifica a tag da imagem, no caso getting-started
+# . é onde devemos procurar o Dockerfile
+
+docker run -dp 3000:3000 getting-started
+
+# -d detached mode (background)
+# -p mapeia as portas 3000 do host com a porta 3000 do container
+
+docker ps
