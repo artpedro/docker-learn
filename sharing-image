@@ -1,0 +1,10 @@
+# necessário criar uma conta no dockerhub
+
+docker login -u artpedro
+# primeiro logamos na conta
+
+docker tag getting-started artpedro/getting-started
+# depois renomeamos a imagem para submete-la
+
+docker push artpedro/getting-started
+# enfim, publicamos a imagem no repositório já existente
