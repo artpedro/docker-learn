@@ -1,0 +1,14 @@
+# Para atualizar a imagem, precisamos remove-la
+
+docker ps
+
+docker stop <id>
+docker rm <id>
+
+# ou 'docker rm -f <id>
+
+docker mount -t getting-started .
+docker run -dp 3000:3000 getting-started
+
+# basicamente é recriar a imagem
+
