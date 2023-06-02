@@ -1,0 +1,19 @@
+# mantendo arquivos específicos em cada imagem
+
+docker run -d ubuntu bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null"
+
+# inicia um container de ubuntu e inicia o bash shell chamando os dois comandos acima
+# shuf escolhe um número de 1 a 10000 e armazena em /data.txt
+# tail mantém o container aberto por conta da flag -f
+
+docker exec <id> cat /data.txt
+
+# vai executar o seguinte comando dentro do container
+# o resultado esperado é um número aleatório
+
+# se você executar outra imagem de ubuntu e checar a / do sistema, não haverá nenhum data.txt
+
+docker run -it ubuntu ls /
+
+docker rm -f <id>
+# para não ocupar espaço
