@@ -17,3 +17,48 @@ docker run -it ubuntu ls /
 
 docker rm -f <id>
 # para não ocupar espaço
+
+# volumes: conecta diretórios do container com diretórios da maquina host
+# mounting: criar um volume e vincula-lo a um diretório
+
+docker volume create todo-db
+
+#Usage:  docker volume COMMAND
+
+#Manage volumes
+
+#Commands:
+#  create      Create a volume
+#  inspect     Display detailed information on one or more volumes
+#  ls          List volumes
+#  prune       Remove all unused local volumes
+#  rm          Remove one or more volumes
+#  update      Update a volume (cluster volumes only)
+
+docker run -dp 3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
+
+#cria e executa um container na porta 3000 baseado na imagem getting-started
+#com o volume todo-db presente na pasta /etc/todos
+
+docker rm -f <id>
+
+docker run -dp 3000:3000 --mount type=volume,src=todo-db,target=/etc/todos getting-started
+
+#as alterações feitas no primeiro container permanecerão nesse
+
+docker volume inspect
+
+output:
+[
+    {
+        "CreatedAt": "2023-06-05T10:34:02-03:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/todo-db/_data",
+        "Name": "todo-db",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+
