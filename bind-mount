@@ -1,0 +1,19 @@
+# bind mount permite compartilhar um diretório do host
+# com o container
+
+# o container tem acesso simultaneo aos diretórios bindados
+# ou seja, você pode fazer alteraçõesa ao source code no
+# diretório bind e as alterações ocorreram no container
+
+# bind              vs              volumes
+# armazena no lugar escolhido       o docker escolhe onde armazenar
+# type=bind,src=/path/to/data,target=/usr/local/data    type=volume,src=my-volume,target=/usr/local/data
+# data <-> container                 data <-> container
+
+docker run -it --mount type=bind,src="$(pwd)",target=/src ubuntu bash
+
+# inicia um container ubuntu em modo interativo pelo bash com montagem tipo bind, conectando o diretório atual com o diretório /src do container
+
+# verifica-se que mudanças tanto dentro quanto fora do diretório
+# refletem nos dois diretórios linkados
+
