@@ -17,3 +17,21 @@ docker run -it --mount type=bind,src="$(pwd)",target=/src ubuntu bash
 # verifica-se que mudanças tanto dentro quanto fora do diretório
 # refletem nos dois diretórios linkados
 
+# exemplo em getting-started
+
+docker run -dp 3000:3000 -w /app type=bind,src="$(pwd)",target=/app node:18-alpine sh -c "yarn install && yarn run dev"
+
+# inicia um container node na porta 3000 com o workdir
+# app com um bind no diretório atual e a pasta /app do
+# container e executa no sh o yarn install e yarn run dev
+# que inicia o nodemon
+
+docker logs -f <id>
+
+# mostra o que já aconteceu no container
+
+# com o nodemon e as pastas apps linkadas, mudanças no
+# source code do host ocorrem no container simultaneamente
+
+
+
