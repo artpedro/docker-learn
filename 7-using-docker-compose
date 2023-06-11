@@ -1,0 +1,7 @@
+# docker compose permite definir em um arquivo yaml
+# toda a formatação da aplicação multi-container em um
+# unico arquivo, com todos os serviços listados
+
+# verificar se docker compose está instalado
+
+docker compose version
