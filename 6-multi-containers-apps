@@ -1,0 +1,60 @@
+# em uma aplicação, cada container deve fazer uma coisa
+# bem. portanto, deve-se usar mais de um container se novas
+# ferramentas, nesse caso, um banco de dados
+
+# dividir em várias aplicações permite:
+#   versionar melhor os containers
+#   escalonar melhor novas APIs e front-ends
+#   facilidade maior para manejar os processos
+
+# para dois containers se comunicarem, eles precisam estar 
+# na mesma network
+
+# criando a network
+docker network create todo-app
+
+
+# criando um container mysql na network criada, definindo um nome para o container na network
+# e configurando variáveis específicas para o container, incluindo um volume em /var/lib/mysql
+
+docker run -d --network todo-app --network-alias mysql -v todo-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=todos mysql:8.0
+
+# para verificar a se o banco de dados está rodando basta acessa-lo
+
+docker exec -it <id> mysql -u root -p
+
+# é esperado uma tabela mostrando as tabelas
+mysql> SHOW DATABASES;
+
+# para verificar qual o ip do container mysql usamos o container de nicolaka/netshoot
+
+docker run -it --network todo-app nicolaka/netshoot
+
+# e usamos o comando dig no mysql
+
+dig mysql
+
+# o output esperado mostrará diversas informações sobre o container
+# assim concluimos que para se conectar ao banco de dados basta o container se conectar ao host chamado mysql
+
+cd getting-started/app
+
+docker run -dp 3000:3000 -w /app -v "$(pwd):/app" --network todo-app -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=todos node:18-alpine sh -c "yarn install && yarn run dev"
+
+# com esse comando executamos a aplicação com as variáveis necessárias para se conectar ao mysql na network todo-app
+
+#MYSQL_HOST - the hostname for the running MySQL server
+#MYSQL_USER - the username to use for the connection
+#MYSQL_PASSWORD - the password to use for the connection
+#MYSQL_DB - the database to use once connected
+
+docker logs -f <id>
+# para verificar se o container conseguiu conectar ao mysql
+
+docker exec -it <mysql-id> mysql -p todos
+# acessando o container do mysql
+
+select * from todo_items;
+# verificando os registros salvos no banco
+
+
